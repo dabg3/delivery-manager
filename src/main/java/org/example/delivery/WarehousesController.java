@@ -26,6 +26,6 @@ public class WarehousesController {
     @Path("/{id}/deliveries")
     @POST
     public void calculateDeliveryRoute(@PathParam("id") String id) {
-
+        //TODO
     }
 }

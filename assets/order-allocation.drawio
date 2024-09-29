@@ -1,0 +1,82 @@
+<mxfile host="app.diagrams.net" modified="2024-09-29T15:55:44.198Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0" etag="wuvp2UyF9faSzOx1Yi_g" version="24.4.0" type="device">
+  <diagram name="Page-1" id="D-AMVOKRyVGtKkAoWxTw">
+    <mxGraphModel dx="1490" dy="740" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-4" value="" style="shape=image;imageAspect=0;aspect=fixed;verticalLabelPosition=bottom;verticalAlign=top;image=https://www.holidayhomestuscany.com/images/mappa-toscana-citta.jpg;" vertex="1" parent="1">
+          <mxGeometry x="436" width="414" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-16" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="640" y="210" width="210" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-15" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;opacity=30;" vertex="1" parent="1">
+          <mxGeometry x="595" y="50" width="120" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="510" y="140" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-5" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="640" y="130" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-6" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="600" y="100" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-8" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="660" y="220" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-9" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="730" y="220" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-10" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="660" y="290" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-11" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="730" y="290" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-12" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;opacity=50;fillColor=#0050ef;strokeColor=#001DBC;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="70" y="60" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-13" value="Warehouse delivery zone" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontFamily=Verdana;" vertex="1" parent="1">
+          <mxGeometry x="140" y="70" width="270" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-14" value="A" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontStyle=1;fontSize=17;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+          <mxGeometry x="640" y="60" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-17" value="B" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontStyle=1;fontSize=17;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+          <mxGeometry x="820" y="280" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-18" value="A" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontStyle=1;fontSize=17;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+          <mxGeometry x="80" y="190" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-19" value="&lt;u&gt;Overlapping delivery zones&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontFamily=Verdana;" vertex="1" parent="1">
+          <mxGeometry x="140" y="190" width="270" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-20" value="&lt;div&gt;&lt;span&gt;Order is assigned to the warehouse with a fewer load (less number of orders)&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;fontFamily=Verdana;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="140" y="220" width="270" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-21" value="B" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontStyle=1;fontSize=17;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
+          <mxGeometry x="80" y="270" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-22" value="&lt;u&gt;Uncovered inner zone&lt;br&gt;&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontFamily=Verdana;" vertex="1" parent="1">
+          <mxGeometry x="140" y="270" width="270" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-23" value="This case is not handled, the order won&#39;t be collected event though it should " style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;fontFamily=Verdana;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="140" y="300" width="270" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-24" value="X" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontStyle=1;fontColor=#FF3333;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="645" y="140" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-26" value="X" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontStyle=1;fontColor=#FF3333;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="720" y="280" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-27" value="X" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Verdana;fontStyle=1;fontColor=#FF3333;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="85" y="140" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="TPPXlGjxM-w9M1TLqtOh-28" value="Order delivery address" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontFamily=Verdana;" vertex="1" parent="1">
+          <mxGeometry x="140" y="135" width="270" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

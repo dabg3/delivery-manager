@@ -3,6 +3,8 @@ package org.example.delivery;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Warehouse {
 
@@ -15,7 +17,9 @@ public class Warehouse {
     @Embedded
     private GeoPoint location;
 
-    public Warehouse() {}
+    @OneToMany
+    @JoinColumn(name="warehouse_id", nullable = false)
+    private List<ShoppingOrder> orders;
 
     public void setId(Long id) {
         this.id = id;
@@ -39,5 +43,13 @@ public class Warehouse {
 
     public void setLocation(GeoPoint location) {
         this.location = location;
+    }
+
+    public List<ShoppingOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<ShoppingOrder> orders) {
+        this.orders = orders;
     }
 }
