@@ -1,5 +1,6 @@
 package org.example.delivery;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -23,9 +24,11 @@ public class WarehousesController {
         return warehouses;
     }
 
-    @Path("/{id}/deliveries")
+    @Path("/{id}/routes")
     @POST
     public void calculateDeliveryRoute(@PathParam("id") String id) {
-        //TODO
+        PanacheQuery<Warehouse> deliverableOrders = warehouseRepository
+                .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
+                        id);
     }
 }
