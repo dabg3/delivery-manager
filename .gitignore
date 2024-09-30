@@ -1,3 +1,5 @@
+concorde_build/
+
 #Maven
 target/
 pom.xml.tag
