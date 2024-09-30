@@ -17,14 +17,15 @@ public class ShoppingOrder {
     private GeoPoint deliveryAddress;
 
     @Enumerated(EnumType.STRING)
-    private State state;
+    private State state = State.ACCEPTED;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="order_id", nullable=false)
     private List<ProductDetail> products;
 
+    // https://stackoverflow.com/questions/43414221/java-entity-storing-dates
     @Column(name="submission_date", nullable = false)
-    private LocalDateTime submissionDate;
+    private LocalDateTime submissionDate = LocalDateTime.now();
 
     public Long getId() {
         return id;

@@ -9,7 +9,7 @@ import java.util.List;
 @Path("warehouses")
 public class WarehousesController {
 
-    private WarehouseRepository warehouseRepository;
+    private final WarehouseRepository warehouseRepository;
 
     @Inject
     public WarehousesController(WarehouseRepository warehouseRepository) {

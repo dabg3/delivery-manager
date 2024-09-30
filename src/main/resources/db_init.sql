@@ -49,6 +49,33 @@ alter table if exists ShoppingOrder
         foreign key (warehouse_id)
             references Warehouse;
 
+-- https://stackoverflow.com/questions/10034636/postgresql-latitude-longitude-query
+-- input is in degrees (e.g. 52.34273489, 6.23847) and output is in meters.
+CREATE OR REPLACE FUNCTION distance(
+    lat1 double precision,
+    lon1 double precision,
+    lat2 double precision,
+    lon2 double precision)
+    RETURNS double precision AS
+$BODY$
+DECLARE
+    R integer = 6371e3; -- Meters
+    rad double precision = 0.01745329252;
+
+    φ1 double precision = lat1 * rad;
+    φ2 double precision = lat2 * rad;
+    Δφ double precision = (lat2-lat1) * rad;
+    Δλ double precision = (lon2-lon1) * rad;
+
+    a double precision = sin(Δφ/2) * sin(Δφ/2) + cos(φ1) * cos(φ2) * sin(Δλ/2) * sin(Δλ/2);
+    c double precision = 2 * atan2(sqrt(a), sqrt(1-a));
+BEGIN
+    RETURN R * c;
+END
+$BODY$
+    LANGUAGE plpgsql VOLATILE
+    COST 100;
+
 
 insert into Warehouse values
     (nextval('WAREHOUSE_SEQ'), 'pisa', 43.7228, 10.4018),
@@ -56,8 +83,8 @@ insert into Warehouse values
     (nextval('WAREHOUSE_SEQ'), 'firenze', 43.7700, 11.2577);
 
 insert into ShoppingOrder values
-    (nextval('ORDER_SEQ'), '43.7189', '10.4131', 'ACCEPTED', '2024-10-01 12:05:06', 1),
-    (nextval('ORDER_SEQ'), '43.7100', '10.4100', 'ACCEPTED', '2024-10-01 14:42:15', 1);
+    (nextval('ORDER_SEQ'), '43.7189', '10.4131', 'ACCEPTED', '2024-10-01 12:05:06', 1), -- ~1km distance
+    (nextval('ORDER_SEQ'), '43.7100', '10.4100', 'ACCEPTED', '2024-10-01 14:42:15', 1); -- ~1.5km distance
 
 insert into OrderProductsDetail values
     (nextval('PRODUCT_DETAIL_SEQ'), 'shampoo', 1, 1),

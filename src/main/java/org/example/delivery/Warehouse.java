@@ -17,7 +17,7 @@ public class Warehouse {
     @Embedded
     private GeoPoint location;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="warehouse_id", nullable = false)
     private List<ShoppingOrder> orders;
 
