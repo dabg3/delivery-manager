@@ -9,23 +9,27 @@
 
 * Products availability in a warehouse is not checked, any order is always deliverable.
 
+* All orders are assigned to a single vehicle which has infinite load capacity.
+
 * Products in an order are referenced by their ID.<br>
     Holding the list of all available products is outside the scope of this service,
-    this means any ID is valid since there's no way to check.
+    this means anything can be used as ID (e.g. "pizza")
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Project structure
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+```text
+.
+├─ assets           : static files
+├─ concorde         : sources of TSP solver library 
+├─ QS               : QSopt LP solver
+├─ src
+│  └─ main
+│     └─ C          : shared library implementing TSP solver
+       
 
-## Running the application in dev mode
-
-You can run your application in dev mode that enables live coding using:
-
-```shell script
-./mvnw compile quarkus:dev
 ```
+## Building concorde
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
 
 ## Packaging and running the application
 
@@ -63,22 +67,3 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 ```
 
 You can then execute your native executable with: `./target/esselunga-manager-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and
-  Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on
-  it.
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus
-  REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)

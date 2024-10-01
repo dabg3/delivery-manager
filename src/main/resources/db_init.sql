@@ -84,7 +84,8 @@ insert into Warehouse values
 
 insert into ShoppingOrder values
     (nextval('ORDER_SEQ'), '43.7189', '10.4131', 'ACCEPTED', '2024-10-01 12:05:06', 1), -- ~1km distance
-    (nextval('ORDER_SEQ'), '43.7100', '10.4100', 'ACCEPTED', '2024-10-01 14:42:15', 1); -- ~1.5km distance
+    (nextval('ORDER_SEQ'), '43.7100', '10.4100', 'ACCEPTED', '2024-10-01 14:42:15', 1), -- ~1.5km distance
+    (nextval('ORDER_SEQ'), '43.7200', '10.4000', 'ACCEPTED', '2024-10-01 16:10:37', 1); -- ~1.5km distance
 
 insert into OrderProductsDetail values
     (nextval('PRODUCT_DETAIL_SEQ'), 'shampoo', 1, 1),
