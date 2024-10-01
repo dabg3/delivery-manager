@@ -48,13 +48,13 @@ void find_best_route(int ncount, CCdatagroup *dat, int* out_tour, CCrandstate *r
         int *in_tour = NULL;
         CCtsp_solve_dat(ncount, 
                         dat, 
-                        in_tour,        //intour
+                        in_tour,
                         out_tour, 
                         mybnd,          //inval
                         &optval, 
                         &success, 
                         &foundtour, 
-                        "example",      //name
+                        "example",      //prefix for tmp files
                         mytimebound,    //timebound
                         0,              //hit_timebound
                         0,              //silent
@@ -108,6 +108,9 @@ int main() {
         int seed = (int) CCutil_real_zeit ();
         CCutil_sprand (seed, &rstate);
         CCdatagroup dat;
+        // edges are useless for this use case actually,
+        // any node is connected to every other node.
+        // Just fill x,y,z arrays in CCdatagroup
         int resv = gen_graph(ncount, ecount, &dat, &elist, &elen, &rstate);
         if (resv) {
                 return resv;
