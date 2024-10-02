@@ -37,6 +37,7 @@ public class WarehousesController {
     @POST
     @Transactional
     public List<Integer> calculateDeliveryRoute(@PathParam("id") String id) {
+        // TODO warehouse.orders should be ordered by their id
         PanacheQuery<Warehouse> deliverableOrders = warehouseRepository
                 .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
                         id);
