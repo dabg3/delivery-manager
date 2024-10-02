@@ -1,4 +1,5 @@
-FROM debian:stable-20240926 AS base
+FROM debian:oldoldstable AS base
+#FROM debian:stable-20240926 newer glibc
 
 RUN <<EOF
 apt-get update

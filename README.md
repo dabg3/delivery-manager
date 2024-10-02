@@ -34,7 +34,10 @@
 
 ## Setup
 
-All steps must be executed from the project root
+All steps must be executed from the project root.
+
+`libdelivery.so` is compiled on `debian:oldoldstable` since `registry.access.redhat.com/ubi8/openjdk-21:1.20`
+runs on an old version of the GNU C Library (2.28)
 
 ### Build base image
 
@@ -59,7 +62,10 @@ docker run --name gen -v .:/workdir delivery-libgen
 
 #### Running on the host
 
-Copy `libdelivery.so` in the appropriate directory for your system to have a fully functional application. 
+If your system depends on glibc>2.28, the library must be recompiled. 
+
+Copy `libdelivery.so` in the appropriate directory to have a fully functional application 
+(e.g. `/usr/java/packages/lib` on Linux). 
 
 https://github.com/openjdk/jextract/blob/master/doc/GUIDE.md#library-loading
 
