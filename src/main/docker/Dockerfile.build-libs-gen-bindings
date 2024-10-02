@@ -1,0 +1,27 @@
+FROM debian:stable-20240926
+
+RUN <<EOF
+apt-get update
+apt-get install -y wget
+EOF
+
+WORKDIR /tmp
+RUN wget -O jextract.tar.gz \
+    https://download.java.net/java/early_access/jextract/21/1/openjdk-21-jextract+1-2_linux-x64_bin.tar.gz
+RUN <<EOF
+tar xvf jextract.tar.gz
+rm -f jextract.tar.gz
+mkdir /opt/java
+mv jextract-21 /opt/java/jextract
+ln -s /opt/java/jextract/bin/jextract /usr/local/bin/
+ln -s /opt/java/jextract/bin/java /usr/local/bin/
+EOF
+
+ADD scripts/gen-bindings.sh /usr/local/bin/
+COPY --from=delivery-base /usr/local/lib/* /usr/local/lib
+COPY --from=delivery-base /usr/local/include/* /usr/local/include
+
+VOLUME /workdir
+WORKDIR /workdir
+
+CMD ["gen-bindings.sh"]

@@ -1,7 +1,22 @@
 #include "delivery.h"
 #include <stdio.h>
-// TODO better import
-#include "../../../concorde_build/concorde.h"
+#include <concorde.h>
+
+/* Notes
+ *
+ * https://github.com/matthelb/concorde/blob/master/TSP/test_tsp.c
+ * https://www.math.uwaterloo.ca/tsp/concorde/DOC/concorde_funcs.html
+ * https://www.math.uwaterloo.ca/tsp/concorde/DOC/util.html
+ * https://www.math.uwaterloo.ca/tsp/concorde/DOC/tsp.html#CCtsp_solve_dat
+ *
+ * What is CCrandstate ?
+ * INCLUDE/util.h
+ * typedef struct CCrandstate {
+ *     int a;
+ *     int b;
+ *     int arr[55];
+ * } CCrandstate;
+ */
 
 void init_datagroup(int ncount, double coordinates[], CCdatagroup *dat) {
         CCutil_init_datagroup(dat);
@@ -20,7 +35,7 @@ static double init_ub = CCtsp_LP_MAXDOUBLE;
 static double in_timebound = 0.0;
 
 void process_datagroup(int ncount, CCdatagroup *dat, CCrandstate *rstate, int out_tour[]) {
-        // the following variables may be useful to get information about the result
+        // the following 3 variables may be useful to get informations about the result
         double optval;
         int success;
         int foundtour;

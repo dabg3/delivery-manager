@@ -1,4 +1,9 @@
 *
+!QS/
+!concorde/
+!scripts/
+!src/main/C/delivery.c
+!src/main/C/delivery.h
 !target/*-runner
 !target/*-runner.jar
 !target/lib/*

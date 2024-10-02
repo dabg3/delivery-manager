@@ -8,6 +8,7 @@
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
+        <jar-plugin.version>3.4.1</jar-plugin.version>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -87,6 +88,15 @@
                 <configuration>
                     <parameters>true</parameters>
                     <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${jar-plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>db_init.sql</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

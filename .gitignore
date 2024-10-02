@@ -1,4 +1,4 @@
-concorde_build/
+build/
 
 #Maven
 target/

@@ -59,6 +59,8 @@ public class WarehousesController {
                     .map(m -> m.get(ValueLayout.JAVA_INT, 0))
                     .forEach(bestRuote::add);
         }
+        w.getOrders().forEach(o -> o.setState(ShoppingOrder.State.DELIVERY));
+        warehouseRepository.flush();
         return bestRuote;
     }
 }

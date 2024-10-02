@@ -39,7 +39,7 @@ final class RuntimeHelper {
             (size, align) -> Arena.ofAuto().allocate(size, align);
 
     static {
-        System.load("/home/dabg/development/tech-tests/esselunga-manager/src/main/C/libdelivery.so");
+        System.loadLibrary("delivery");
         SymbolLookup loaderLookup = SymbolLookup.loaderLookup();
         SYMBOL_LOOKUP = name -> loaderLookup.find(name).or(() -> LINKER.defaultLookup().find(name));
     }

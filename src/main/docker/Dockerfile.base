@@ -1,0 +1,29 @@
+FROM debian:stable-20240926 AS base
+
+RUN <<EOF
+apt-get update
+apt-get install -y build-essential libgmp-dev
+EOF
+
+ADD QS /usr/local/QS
+ADD concorde /usr/local/src/concorde
+WORKDIR /usr/local/src/concorde
+RUN <<EOF
+mkdir build && cd build
+CFLAGS="-fPIC" ../configure --with-qsopt=/usr/local/QS
+make -j $(nproc) concorde.a concorde.h
+cp concorde.a /usr/local/lib
+cp concorde.h /usr/local/include
+cp /usr/local/QS/qsopt.a /usr/local/lib
+cp /usr/local/QS/qsopt.h /usr/local/include
+EOF
+
+ADD src/main/C /usr/local/src/delivery
+WORKDIR /usr/local/src/delivery
+RUN <<EOF
+gcc -Wall -Werror -fpic --shared -o libdelivery.so delivery.c -l:concorde.a -l:qsopt.a -lm
+cp libdelivery.so /usr/local/lib
+cp delivery.h /usr/local/include
+EOF
+
+WORKDIR /
