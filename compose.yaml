@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      # default username: postgres
+      # default db: postgres
+    volumes:
+      - ${PWD}/src/main/resources/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
+  app:
+    image: esselunga-manager-jvm
+    build:
+      dockerfile: ./src/main/docker/Dockerfile.jvm
+    ports:
+      - "8080:8080"
