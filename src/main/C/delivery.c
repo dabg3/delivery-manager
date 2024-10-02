@@ -24,8 +24,8 @@ void init_datagroup(int ncount, double coordinates[], CCdatagroup *dat) {
         dat->x = CC_SAFE_MALLOC (ncount, double);
         dat->y = CC_SAFE_MALLOC (ncount, double);
         for (int i = 0; i < ncount; i++) {
-                dat->x[i] = coordinates[i * 2];
-                dat->y[i] = coordinates[i * 2 + 1];
+                dat->x[i] = coordinates[i * 2 + 1]; // longitude
+                dat->y[i] = coordinates[i * 2];     // latitude
         }
         CCutil_dat_setnorm (dat, CC_EUCLIDEAN);
 }

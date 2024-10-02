@@ -2,6 +2,7 @@
 
 # this scripts is executed within Dockerfile.build-libs-gen-bindings
 
+rm -rf src/main/java/foreign 2> /dev/null
 rm -rf build 2> /dev/null && mkdir build
 cp /usr/local/include/concorde.h build
 cp /usr/local/lib/concorde.a build

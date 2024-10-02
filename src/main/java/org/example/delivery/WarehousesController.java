@@ -2,11 +2,11 @@ package org.example.delivery;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import java.lang.foreign.Arena;
-import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
 import java.util.ArrayList;
@@ -35,6 +35,7 @@ public class WarehousesController {
 
     @Path("/{id}/routes")
     @POST
+    @Transactional
     public List<Integer> calculateDeliveryRoute(@PathParam("id") String id) {
         PanacheQuery<Warehouse> deliverableOrders = warehouseRepository
                 .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
@@ -56,7 +57,9 @@ public class WarehousesController {
             find_best_route(nodesCount, coordsSeg, routeSeg);
             print_route(nodesCount, routeSeg);
             routeSeg.elements(ValueLayout.JAVA_INT)
+                    .skip(1) // don't care about warehouse
                     .map(m -> m.get(ValueLayout.JAVA_INT, 0))
+                    .map(n -> n - 1) // align indexes to warehouse.getOrders()
                     .forEach(bestRuote::add);
         }
         w.getOrders().forEach(o -> o.setState(ShoppingOrder.State.DELIVERY));
