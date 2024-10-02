@@ -36,8 +36,6 @@
 
 All steps must be executed from the project root.
 
-`libdelivery.so` is compiled on `debian:oldoldstable` since `registry.access.redhat.com/ubi8/openjdk-21:1.20`
-runs on an old version of the GNU C Library (2.28)
 
 ### Build base image
 
@@ -62,6 +60,8 @@ docker run --name gen -v .:/workdir delivery-libgen
 
 #### Running on the host
 
+`libdelivery.so` is compiled on `debian:oldoldstable` since `registry.access.redhat.com/ubi8/openjdk-21:1.20`
+runs on an old version of the GNU C Library (2.28).<br>
 If your system depends on glibc>2.28, the library must be recompiled. 
 
 Copy `libdelivery.so` in the appropriate directory to have a fully functional application 
@@ -90,7 +90,9 @@ If you want to build an _über-jar_, execute the following command:
 
 ## Running
 
-Docker Compose is used to start a PostgreSQL container as well
+Docker Compose is used to:
+* build the jvm image
+* start a PostgreSQL container
 
 ```shell
 docker compose up -d
@@ -98,7 +100,7 @@ docker compose up -d
 
 ## Creating a native executable
 
-_requires testing_
+_Warning: requires testing, does it work?_
 
 You can create a native executable using:
 
