@@ -42,7 +42,6 @@ public class WarehousesController {
         }
     }
 
-
     /*
      * TODO: seamless entity<->DTO conversion
      * https://modelmapper.org/

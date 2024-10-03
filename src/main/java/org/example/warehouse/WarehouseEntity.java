@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.example.location.GeoPoint;
 import org.example.shopping.ShoppingOrderEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="Warehouse")
@@ -21,7 +22,7 @@ public class WarehouseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="warehouse_id", nullable = false)
-    private List<ShoppingOrderEntity> orders;
+    private List<ShoppingOrderEntity> orders = new ArrayList<>();
 
     public void setId(Long id) {
         this.id = id;

@@ -5,6 +5,7 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.example.location.GeoPoint;
 import org.example.shopping.ShoppingOrderEntity;
 
 import java.lang.foreign.Arena;
@@ -55,8 +56,7 @@ public class Delivery {
     }
 
     @Transactional
-    public List<Integer> route(Long id) {
-        // TODO warehouse.orders should be ordered by their id
+    public List<GeoPoint> route(Long id) {
         PanacheQuery<WarehouseEntity> deliverableOrders = warehouseRepository
                 .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
                         id);
@@ -66,8 +66,8 @@ public class Delivery {
             return new ArrayList<>();
         }
         double[] coordinates = asCoordinatesArray(w);
-        int nodesCount = coordinates.length;
-        List<Integer> bestRuote = new ArrayList<>();
+        int nodesCount = coordinates.length / 2;
+        List<GeoPoint> bestRuote = new ArrayList<>();
         try (Arena memory = Arena.ofConfined()) {
             MemorySegment coordsSeg = memory.allocateArray(ValueLayout.JAVA_DOUBLE, coordinates);
             MemorySegment routeSeg = memory.allocate(nodesCount * Integer.BYTES);
@@ -77,6 +77,8 @@ public class Delivery {
                     .skip(1) // don't care about warehouse
                     .map(m -> m.get(ValueLayout.JAVA_INT, 0))
                     .map(n -> n - 1) // align indexes to warehouse.getOrders()
+                    .map(w.getOrders()::get)
+                    .map(ShoppingOrderEntity::getDeliveryAddress)
                     .forEach(bestRuote::add);
         }
         w.getOrders().forEach(o -> o.setState(ShoppingOrderEntity.State.DELIVERY));
@@ -84,9 +86,9 @@ public class Delivery {
         return bestRuote;
     }
 
-    private double[] asCoordinatesArray(WarehouseEntity w) {
+    static double[] asCoordinatesArray(WarehouseEntity w) {
         // adding one because warehouse must be a node in the graph
-        double[] coordinates = new double[1 + w.getOrders().size() * 2];
+        double[] coordinates = new double[(1 + w.getOrders().size()) * 2];
         coordinates[0] = w.getLocation().getLatitude();
         coordinates[1] = w.getLocation().getLongitude();
         for (int i = 0; i < w.getOrders().size(); i++) {
