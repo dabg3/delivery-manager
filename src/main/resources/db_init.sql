@@ -89,4 +89,6 @@ insert into ShoppingOrder values
 
 insert into OrderProductsDetail values
     (nextval('PRODUCT_DETAIL_SEQ'), 'shampoo', 1, 1),
-    (nextval('PRODUCT_DETAIL_SEQ'), 'pizza', 3, 2);
+    (nextval('PRODUCT_DETAIL_SEQ'), 'pizza', 3, 2),
+    (nextval('PRODUCT_DETAIL_SEQ'), 'pasta 500gr', 2, 3),
+    (nextval('PRODUCT_DETAIL_SEQ'), 'prosciutto 200gr', 1, 3);

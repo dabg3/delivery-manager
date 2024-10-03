@@ -1,7 +1,13 @@
-package org.example.delivery;
+package org.example.location;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+
+/*
+ * GeoPoint encloses geographic coordinates.
+ * It is used on JPA entities to add latitude, longitude columns.
+ * It is also used on DTOs to avoid having a duplicate class.
+ */
 
 @Embeddable
 public class GeoPoint {

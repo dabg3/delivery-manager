@@ -1,12 +1,14 @@
-package org.example.delivery;
+package org.example.warehouse;
 
 
 import jakarta.persistence.*;
+import org.example.location.GeoPoint;
+import org.example.shopping.ShoppingOrderEntity;
 
 import java.util.List;
 
-@Entity
-public class Warehouse {
+@Entity(name="Warehouse")
+public class WarehouseEntity {
 
     @Id
     @SequenceGenerator(name="WAREHOUSE_SEQ", allocationSize = 1)
@@ -19,7 +21,7 @@ public class Warehouse {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="warehouse_id", nullable = false)
-    private List<ShoppingOrder> orders;
+    private List<ShoppingOrderEntity> orders;
 
     public void setId(Long id) {
         this.id = id;
@@ -45,11 +47,11 @@ public class Warehouse {
         this.location = location;
     }
 
-    public List<ShoppingOrder> getOrders() {
+    public List<ShoppingOrderEntity> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<ShoppingOrder> orders) {
+    public void setOrders(List<ShoppingOrderEntity> orders) {
         this.orders = orders;
     }
 }

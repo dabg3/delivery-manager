@@ -1,12 +1,13 @@
-package org.example.delivery;
+package org.example.shopping;
 
 import jakarta.persistence.*;
+import org.example.location.GeoPoint;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-public class ShoppingOrder {
+@Entity(name="ShoppingOrder")
+public class ShoppingOrderEntity {
 
     @Id
     @SequenceGenerator(name="ORDER_SEQ", allocationSize = 1)
@@ -19,7 +20,7 @@ public class ShoppingOrder {
     @Enumerated(EnumType.STRING)
     private State state = State.ACCEPTED;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name="order_id", nullable=false)
     private List<ProductDetail> products;
 

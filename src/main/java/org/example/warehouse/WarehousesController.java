@@ -1,10 +1,11 @@
-package org.example.delivery;
+package org.example.warehouse;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import org.example.shopping.ShoppingOrderEntity;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
@@ -28,8 +29,8 @@ public class WarehousesController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Warehouse> getWarehouses() {
-        List<Warehouse> warehouses = warehouseRepository.listAll();
+    public List<WarehouseEntity> getWarehouses() {
+        List<WarehouseEntity> warehouses = warehouseRepository.listAll();
         return warehouses;
     }
 
@@ -38,10 +39,10 @@ public class WarehousesController {
     @Transactional
     public List<Integer> calculateDeliveryRoute(@PathParam("id") String id) {
         // TODO warehouse.orders should be ordered by their id
-        PanacheQuery<Warehouse> deliverableOrders = warehouseRepository
+        PanacheQuery<WarehouseEntity> deliverableOrders = warehouseRepository
                 .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
                         id);
-        Warehouse w = deliverableOrders.firstResult();
+        WarehouseEntity w = deliverableOrders.firstResult();
         // adding one because warehouse must be a node in the graph
         int nodesCount = 1 + w.getOrders().size();
         double[] coordinates = new double[nodesCount * 2];
@@ -63,7 +64,7 @@ public class WarehousesController {
                     .map(n -> n - 1) // align indexes to warehouse.getOrders()
                     .forEach(bestRuote::add);
         }
-        w.getOrders().forEach(o -> o.setState(ShoppingOrder.State.DELIVERY));
+        w.getOrders().forEach(o -> o.setState(ShoppingOrderEntity.State.DELIVERY));
         warehouseRepository.flush();
         return bestRuote;
     }

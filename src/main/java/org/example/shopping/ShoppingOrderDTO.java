@@ -1,6 +1,7 @@
-package org.example.delivery;
+package org.example.shopping;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.example.location.GeoPoint;
 
 import java.time.LocalDateTime;
 import java.util.List;

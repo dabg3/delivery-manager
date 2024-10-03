@@ -49,11 +49,6 @@
             <artifactId>quarkus-jdbc-postgresql</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
-        </dependency>
-        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
