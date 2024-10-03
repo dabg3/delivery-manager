@@ -1,12 +1,13 @@
-package org.example.warehouse;
+package org.example.delivery.warehouse;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.example.location.GeoPoint;
-import org.example.shopping.ShoppingOrderEntity;
+import org.example.delivery.exception.DeliveryNotAvailableException;
+import org.example.delivery.exception.NoOrdersReadyException;
+import org.example.delivery.order.ShoppingOrderEntity;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
@@ -33,13 +34,12 @@ public class Delivery {
     }
 
     @Transactional
-    public void register(ShoppingOrderEntity order) {
-        // TODO: if deliveryAddress is the same of another already registered order, merge them
+    public void register(ShoppingOrderEntity order) throws DeliveryNotAvailableException {
         assignWarehouse(order).getOrders().add(order);
         warehouseRepository.flush();
     }
 
-    private WarehouseEntity assignWarehouse(ShoppingOrderEntity order) {
+    private WarehouseEntity assignWarehouse(ShoppingOrderEntity order) throws DeliveryNotAvailableException {
         PanacheQuery<WarehouseEntity> query = warehouseRepository
                 .find("select w from Warehouse w where function('distance', w.location.latitude, w.location.longitude, ?1, ?2) < ?3",
                         order.getDeliveryAddress().getLatitude(),
@@ -47,8 +47,7 @@ public class Delivery {
                         maxDistanceMeters);
         List<WarehouseEntity> warehouses = query.list();
         if (warehouses.isEmpty()) {
-            // TODO: return domain error, no warehouses available
-            return null;
+            throw new DeliveryNotAvailableException();
         }
         // TODO: sort via query orderBy
         warehouses.sort(Comparator.comparingInt(w -> w.getOrders().size()));
@@ -56,18 +55,17 @@ public class Delivery {
     }
 
     @Transactional
-    public List<ShoppingOrderEntity> route(Long id) {
+    public List<ShoppingOrderEntity> route(Long id) throws NoOrdersReadyException {
         PanacheQuery<WarehouseEntity> deliverableOrders = warehouseRepository
                 .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
                         id);
         WarehouseEntity w = deliverableOrders.firstResult();
         if (Objects.isNull(w)) {
-            // TODO throw domain error
-            return new ArrayList<>();
+            throw new NoOrdersReadyException();
         }
         double[] coordinates = asCoordinatesArray(w);
         int nodesCount = coordinates.length / 2;
-        List<ShoppingOrderEntity> bestRuote = new ArrayList<>();
+        List<ShoppingOrderEntity> bestRoute = new ArrayList<>();
         try (Arena memory = Arena.ofConfined()) {
             MemorySegment coordsSeg = memory.allocateArray(ValueLayout.JAVA_DOUBLE, coordinates);
             MemorySegment routeSeg = memory.allocate(nodesCount * Integer.BYTES);
@@ -78,11 +76,11 @@ public class Delivery {
                     .map(m -> m.get(ValueLayout.JAVA_INT, 0))
                     .map(n -> n - 1) // align indexes to warehouse.getOrders()
                     .map(w.getOrders()::get)
-                    .forEach(bestRuote::add);
+                    .forEach(bestRoute::add);
         }
         w.getOrders().forEach(o -> o.setState(ShoppingOrderEntity.State.DELIVERY));
         warehouseRepository.flush();
-        return bestRuote;
+        return bestRoute;
     }
 
     static double[] asCoordinatesArray(WarehouseEntity w) {

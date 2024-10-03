@@ -1,7 +1,7 @@
-package org.example.shopping;
+package org.example.delivery.order;
 
 import jakarta.persistence.*;
-import org.example.location.GeoPoint;
+import org.example.delivery.location.GeoPoint;
 
 import java.time.LocalDateTime;
 import java.util.List;

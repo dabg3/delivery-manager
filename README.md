@@ -91,7 +91,7 @@ If you want to build an _über-jar_, execute the following command:
 ## Running
 
 Docker Compose is used to:
-* build the jvm image
+* build the JVM image `src/main/docker/Dockerfile.jvm`
 * start a PostgreSQL container
 
 ```shell
@@ -100,7 +100,8 @@ docker compose up -d
 
 ## Creating a native executable
 
-_Warning: requires testing, does it work?_
+_Warning: `libdelivery.so` has not been integrated on the native images, copy from JVM Dockerfile.
+Does it work?_
 
 You can create a native executable using:
 

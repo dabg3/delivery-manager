@@ -1,12 +1,13 @@
-package org.example.warehouse;
+package org.example.delivery.warehouse;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.example.shopping.ShoppingOrderDTO;
-import org.example.shopping.ShoppingOrderEntity;
+import org.example.delivery.exception.NoOrdersReadyException;
+import org.example.delivery.order.ShoppingOrderDTO;
+import org.example.delivery.order.ShoppingOrderEntity;
 
 import java.util.List;
 
@@ -33,19 +34,13 @@ public class WarehousesController {
                 .toList();
     }
 
-    // TODO this returns
     @Path("/{id}/routes")
     @POST
-    public Response calculateDeliveryRoute(@PathParam("id") String id) {
-        try {
-            Long idL = Long.parseLong(id);
-            List<ShoppingOrderDTO> routedOrders = delivery.route(idL).stream()
-                    .map(WarehousesController::entityToDTO)
-                    .toList();
-            return Response.ok(routedOrders).build();
-        } catch (NumberFormatException e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+    public Response calculateDeliveryRoute(@PathParam("id") Long id) throws NoOrdersReadyException {
+        List<ShoppingOrderDTO> routedOrders = delivery.route(id).stream()
+                .map(WarehousesController::entityToDTO)
+                .toList();
+        return Response.ok(routedOrders).build();
     }
 
     /*

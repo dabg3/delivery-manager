@@ -1,9 +1,9 @@
-package org.example.warehouse;
+package org.example.delivery.warehouse;
 
 
 import jakarta.persistence.*;
-import org.example.location.GeoPoint;
-import org.example.shopping.ShoppingOrderEntity;
+import org.example.delivery.location.GeoPoint;
+import org.example.delivery.order.ShoppingOrderEntity;
 
 import java.util.ArrayList;
 import java.util.List;

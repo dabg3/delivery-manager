@@ -1,4 +1,4 @@
-package org.example.location;
+package org.example.delivery.location;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

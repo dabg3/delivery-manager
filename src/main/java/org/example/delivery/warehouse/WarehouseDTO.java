@@ -1,6 +1,6 @@
-package org.example.warehouse;
+package org.example.delivery.warehouse;
 
-import org.example.location.GeoPoint;
+import org.example.delivery.location.GeoPoint;
 
 public class WarehouseDTO {
 

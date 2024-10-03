@@ -1,4 +1,4 @@
-package org.example.shopping;
+package org.example.delivery.order;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
@@ -6,11 +6,12 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.example.warehouse.Delivery;
+import org.example.delivery.location.GeoPoint;
+import org.example.delivery.warehouse.Delivery;
+import org.example.delivery.exception.DeliveryNotAvailableException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Path("orders")
 class OrdersController {
@@ -27,10 +28,7 @@ class OrdersController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addOrder(ShoppingOrderDTO orderDTO) {
-        if (Objects.isNull(orderDTO) || Objects.isNull(orderDTO.getDeliveryAddress())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+    public Response addOrder(ShoppingOrderDTO orderDTO) throws DeliveryNotAvailableException {
         delivery.register(DTOToEntity(orderDTO));
         return Response.ok().build();
     }
@@ -47,13 +45,12 @@ class OrdersController {
 
     @Path("/{id}")
     @PATCH
+    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response editOrder(@PathParam("id") Long id, ShoppingOrderDTO orderDTO) {
-        if (Objects.isNull(orderDTO) || Objects.isNull(orderDTO.getDeliveryAddress())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
+        GeoPoint newAddress = orderDTO.getDeliveryAddress();
         ShoppingOrderEntity order = orderRepository.findById(id);
-        order.setDeliveryAddress(orderDTO.getDeliveryAddress());
+        order.setDeliveryAddress(newAddress);
         orderRepository.flush();
         return Response.ok().build();
     }
@@ -62,6 +59,7 @@ class OrdersController {
      * TODO: seamless entity<->DTO conversion
      * https://modelmapper.org/
      * https://commons.apache.org/proper/commons-beanutils/
+     * https://mapstruct.org/
      */
 
     private static ShoppingOrderEntity DTOToEntity(ShoppingOrderDTO dto) {
