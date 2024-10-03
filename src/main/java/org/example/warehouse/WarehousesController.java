@@ -5,6 +5,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.example.shopping.ShoppingOrderDTO;
+import org.example.shopping.ShoppingOrderEntity;
 
 import java.util.List;
 
@@ -31,12 +33,16 @@ public class WarehousesController {
                 .toList();
     }
 
+    // TODO this returns
     @Path("/{id}/routes")
     @POST
     public Response calculateDeliveryRoute(@PathParam("id") String id) {
         try {
             Long idL = Long.parseLong(id);
-            return Response.ok(delivery.route(idL)).build();
+            List<ShoppingOrderDTO> routedOrders = delivery.route(idL).stream()
+                    .map(WarehousesController::entityToDTO)
+                    .toList();
+            return Response.ok(routedOrders).build();
         } catch (NumberFormatException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -46,6 +52,7 @@ public class WarehousesController {
      * TODO: seamless entity<->DTO conversion
      * https://modelmapper.org/
      * https://commons.apache.org/proper/commons-beanutils/
+     * https://mapstruct.org/
      */
 
     private static WarehouseDTO entityToDTO(WarehouseEntity warehouse) {
@@ -53,6 +60,13 @@ public class WarehousesController {
         dto.setId(warehouse.getId());
         dto.setName(warehouse.getName());
         dto.setLocation(warehouse.getLocation());
+        return dto;
+    }
+
+    private static ShoppingOrderDTO entityToDTO(ShoppingOrderEntity order) {
+        ShoppingOrderDTO dto = new ShoppingOrderDTO();
+        dto.setId(order.getId());
+        dto.setDeliveryAddress(order.getDeliveryAddress());
         return dto;
     }
 

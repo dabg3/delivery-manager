@@ -8,15 +8,17 @@ import java.util.List;
 
 public class ShoppingOrderDTO {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id;
 
     private GeoPoint deliveryAddress;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String state;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ProductDetailDTO> products;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private LocalDateTime submissionDate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

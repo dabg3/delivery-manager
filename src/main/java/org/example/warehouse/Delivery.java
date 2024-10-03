@@ -56,7 +56,7 @@ public class Delivery {
     }
 
     @Transactional
-    public List<GeoPoint> route(Long id) {
+    public List<ShoppingOrderEntity> route(Long id) {
         PanacheQuery<WarehouseEntity> deliverableOrders = warehouseRepository
                 .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
                         id);
@@ -67,7 +67,7 @@ public class Delivery {
         }
         double[] coordinates = asCoordinatesArray(w);
         int nodesCount = coordinates.length / 2;
-        List<GeoPoint> bestRuote = new ArrayList<>();
+        List<ShoppingOrderEntity> bestRuote = new ArrayList<>();
         try (Arena memory = Arena.ofConfined()) {
             MemorySegment coordsSeg = memory.allocateArray(ValueLayout.JAVA_DOUBLE, coordinates);
             MemorySegment routeSeg = memory.allocate(nodesCount * Integer.BYTES);
@@ -78,7 +78,6 @@ public class Delivery {
                     .map(m -> m.get(ValueLayout.JAVA_INT, 0))
                     .map(n -> n - 1) // align indexes to warehouse.getOrders()
                     .map(w.getOrders()::get)
-                    .map(ShoppingOrderEntity::getDeliveryAddress)
                     .forEach(bestRuote::add);
         }
         w.getOrders().forEach(o -> o.setState(ShoppingOrderEntity.State.DELIVERY));
