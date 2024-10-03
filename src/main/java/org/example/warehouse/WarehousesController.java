@@ -2,70 +2,59 @@ package org.example.warehouse;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.example.shopping.ShoppingOrderEntity;
+import jakarta.ws.rs.core.Response;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.ValueLayout;
-import java.util.ArrayList;
 import java.util.List;
-
-import static foreign.delivery.delivery_h.find_best_route;
-import static foreign.delivery.delivery_h.print_route;
 
 
 @Path("warehouses")
 public class WarehousesController {
 
+    private final Delivery delivery;
     private final WarehouseRepository warehouseRepository;
 
     @Inject
-    public WarehousesController(WarehouseRepository warehouseRepository) {
+    public WarehousesController(Delivery delivery,
+                                WarehouseRepository warehouseRepository) {
+        this.delivery = delivery;
         this.warehouseRepository = warehouseRepository;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<WarehouseEntity> getWarehouses() {
-        List<WarehouseEntity> warehouses = warehouseRepository.listAll();
-        return warehouses;
+    public List<WarehouseDTO> getWarehouses() {
+        PanacheQuery<WarehouseEntity> query = warehouseRepository.findAll();
+        return query.stream()
+                .map(WarehousesController::entityToDTO)
+                .toList();
     }
 
     @Path("/{id}/routes")
     @POST
-    @Transactional
-    public List<Integer> calculateDeliveryRoute(@PathParam("id") String id) {
-        // TODO warehouse.orders should be ordered by their id
-        PanacheQuery<WarehouseEntity> deliverableOrders = warehouseRepository
-                .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
-                        id);
-        WarehouseEntity w = deliverableOrders.firstResult();
-        // adding one because warehouse must be a node in the graph
-        int nodesCount = 1 + w.getOrders().size();
-        double[] coordinates = new double[nodesCount * 2];
-        coordinates[0] = w.getLocation().getLatitude();
-        coordinates[1] = w.getLocation().getLongitude();
-        for (int i = 0; i < nodesCount - 1; i++) {
-            coordinates[2 + i * 2] = w.getOrders().get(i).getDeliveryAddress().getLatitude();
-            coordinates[3 + i * 2] = w.getOrders().get(i).getDeliveryAddress().getLongitude();
+    public Response calculateDeliveryRoute(@PathParam("id") String id) {
+        try {
+            Long idL = Long.parseLong(id);
+            return Response.ok(delivery.route(idL)).build();
+        } catch (NumberFormatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        List<Integer> bestRuote = new ArrayList<>();
-        try (Arena memory = Arena.ofConfined()) {
-            MemorySegment coordsSeg = memory.allocateArray(ValueLayout.JAVA_DOUBLE, coordinates);
-            MemorySegment routeSeg = memory.allocate(nodesCount * Integer.BYTES);
-            find_best_route(nodesCount, coordsSeg, routeSeg);
-            print_route(nodesCount, routeSeg);
-            routeSeg.elements(ValueLayout.JAVA_INT)
-                    .skip(1) // don't care about warehouse
-                    .map(m -> m.get(ValueLayout.JAVA_INT, 0))
-                    .map(n -> n - 1) // align indexes to warehouse.getOrders()
-                    .forEach(bestRuote::add);
-        }
-        w.getOrders().forEach(o -> o.setState(ShoppingOrderEntity.State.DELIVERY));
-        warehouseRepository.flush();
-        return bestRuote;
     }
+
+
+    /*
+     * TODO: seamless entity<->DTO conversion
+     * https://modelmapper.org/
+     * https://commons.apache.org/proper/commons-beanutils/
+     */
+
+    private static WarehouseDTO entityToDTO(WarehouseEntity warehouse) {
+        WarehouseDTO dto = new WarehouseDTO();
+        dto.setId(warehouse.getId());
+        dto.setName(warehouse.getName());
+        dto.setLocation(warehouse.getLocation());
+        return dto;
+    }
+
 }

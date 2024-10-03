@@ -21,8 +21,8 @@ class OrdersController {
     @Inject
     public OrdersController(Delivery delivery,
                             OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
         this.delivery = delivery;
+        this.orderRepository = orderRepository;
     }
 
     @POST
@@ -44,7 +44,6 @@ class OrdersController {
                 .map(OrdersController::entityToDTO)
                 .toList();
     }
-
 
     @Path("/{id}")
     @PATCH
