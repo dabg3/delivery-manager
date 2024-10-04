@@ -1,5 +1,7 @@
 # delivery-manager
 
+Clone with `git clone --recurse-submodules https://github.com/dabg3/delivery-manager.git`
+
 ## Assumptions
 
 * A warehouse can deliver orders within a certain radius from its position.<br>
