@@ -1,16 +1,12 @@
 package org.example.delivery.order;
 
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
-import io.quarkus.panache.common.Parameters;
-import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.example.delivery.exception.DeliveryNotAvailableException;
 import org.example.delivery.location.GeoPoint;
 import org.example.delivery.warehouse.Delivery;
-import org.example.delivery.exception.DeliveryNotAvailableException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +16,13 @@ import java.util.Optional;
 class OrdersController {
 
     private final Delivery delivery;
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     @Inject
     public OrdersController(Delivery delivery,
-                            OrderRepository orderRepository) {
+                            OrderService orderService) {
         this.delivery = delivery;
-        this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @POST
@@ -39,30 +35,20 @@ class OrdersController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<ShoppingOrderDTO> getOrders(@DefaultValue("id") @QueryParam("sort") String sortField,
-                                            @DefaultValue("ascending") @QueryParam("order") String order) {
-        // TODO filtering
-        Sort.Direction d = switch(order.toLowerCase()) {
-            case "descending", "desc" -> Sort.Direction.Descending;
-            default -> Sort.Direction.Ascending;
-        };
-        PanacheQuery<ShoppingOrderEntity> query = orderRepository.find(
-                "select o from ShoppingOrder o",
-                Sort.by(sortField, d)
-        );
-        return query.stream()
+                                            @DefaultValue("ascending") @QueryParam("order") String order,
+                                            @QueryParam("state") Optional<String> stateFilter) {
+        return orderService.retrieveOrders(sortField, order, stateFilter).stream()
                 .map(OrdersController::entityToDTO)
                 .toList();
     }
 
+
     @Path("/{id}")
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
-    @Transactional
     public Response editOrder(@PathParam("id") Long id, ShoppingOrderDTO orderDTO) {
         GeoPoint newAddress = orderDTO.getDeliveryAddress();
-        ShoppingOrderEntity order = orderRepository.findById(id);
-        order.setDeliveryAddress(newAddress);
-        orderRepository.flush();
+        orderService.updateAddress(id, newAddress);
         return Response.ok().build();
     }
 
