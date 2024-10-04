@@ -56,6 +56,14 @@ public class Delivery {
 
     @Transactional
     public List<ShoppingOrderEntity> route(Long id) throws NoOrdersReadyException {
+        WarehouseEntity w = retrieveDeliverableOrders(id);
+        List<ShoppingOrderEntity> bestRoute = findBestRoute(w);
+        bestRoute.forEach(o -> o.setState(ShoppingOrderEntity.State.DELIVERY));
+        warehouseRepository.flush();
+        return bestRoute;
+    }
+
+    private WarehouseEntity retrieveDeliverableOrders(Long id) throws NoOrdersReadyException {
         PanacheQuery<WarehouseEntity> deliverableOrders = warehouseRepository
                 .find("select w from Warehouse w join fetch w.orders o where w.id = ?1 and o.state = 'ACCEPTED'",
                         id);
@@ -63,6 +71,12 @@ public class Delivery {
         if (Objects.isNull(w)) {
             throw new NoOrdersReadyException();
         }
+        return w;
+    }
+
+    // It is not always the best route actually,
+    // it may be 'optimal' according to a set of heuristics
+    private List<ShoppingOrderEntity> findBestRoute(WarehouseEntity w) {
         double[] coordinates = asCoordinatesArray(w);
         int nodesCount = coordinates.length / 2;
         List<ShoppingOrderEntity> bestRoute = new ArrayList<>();
@@ -78,8 +92,6 @@ public class Delivery {
                     .map(w.getOrders()::get)
                     .forEach(bestRoute::add);
         }
-        w.getOrders().forEach(o -> o.setState(ShoppingOrderEntity.State.DELIVERY));
-        warehouseRepository.flush();
         return bestRoute;
     }
 

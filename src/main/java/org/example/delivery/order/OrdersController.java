@@ -1,6 +1,8 @@
 package org.example.delivery.order;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.panache.common.Parameters;
+import io.quarkus.panache.common.Sort;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -12,6 +14,7 @@ import org.example.delivery.exception.DeliveryNotAvailableException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Path("orders")
 class OrdersController {
@@ -35,9 +38,17 @@ class OrdersController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ShoppingOrderDTO> getOrders() {
-        // TODO filtering, ordering
-        PanacheQuery<ShoppingOrderEntity> query = orderRepository.findAll();
+    public List<ShoppingOrderDTO> getOrders(@DefaultValue("id") @QueryParam("sort") String sortField,
+                                            @DefaultValue("ascending") @QueryParam("order") String order) {
+        // TODO filtering
+        Sort.Direction d = switch(order.toLowerCase()) {
+            case "descending", "desc" -> Sort.Direction.Descending;
+            default -> Sort.Direction.Ascending;
+        };
+        PanacheQuery<ShoppingOrderEntity> query = orderRepository.find(
+                "select o from ShoppingOrder o",
+                Sort.by(sortField, d)
+        );
         return query.stream()
                 .map(OrdersController::entityToDTO)
                 .toList();
