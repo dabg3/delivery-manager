@@ -10,7 +10,7 @@ services:
     volumes:
       - ${PWD}/src/main/resources/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql
   app:
-    image: esselunga-manager-jvm
+    image: delivery-manager-jvm
     build:
       dockerfile: ./src/main/docker/Dockerfile.jvm
     ports:

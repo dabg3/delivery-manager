@@ -56,6 +56,9 @@ class OrderService {
     @Transactional
     public void updateAddress(Long id, GeoPoint address) {
         ShoppingOrderEntity order = orderRepository.findById(id);
+        if (order == null) {
+            throw new IllegalArgumentException("Order not found");
+        }
         order.setDeliveryAddress(address);
         orderRepository.flush();
     }

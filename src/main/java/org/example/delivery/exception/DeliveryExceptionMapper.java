@@ -11,7 +11,7 @@ public class DeliveryExceptionMapper implements ExceptionMapper<DeliveryExceptio
     public Response toResponse(DeliveryException e) {
         ErrorResponse.ErrorMessage message = new ErrorResponse.ErrorMessage(e.getMessage());
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity(message)
+                .entity(new ErrorResponse(message))
                 .build();
     }
 }
